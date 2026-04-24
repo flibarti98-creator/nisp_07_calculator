@@ -85,3 +85,33 @@ equalsButton.addEventListener('click', () => {
     previousValue = undefined;
     updateDisplay();
 });
+
+equalsButton.addEventListener('click', () => {
+    const current = parseFloat(currentOperand);
+    const prev = parseFloat(previousValue);
+    if (isNaN(prev) || isNaN(current)) return;
+
+    let result;
+    switch (selectedOperation) {
+        case '+':
+            result = prev + current;
+            break;
+        case '-':
+            result = prev - current;
+            break;
+        case '*':
+            result = prev * current;
+            break;
+        case '/':
+            // Proste zabezpieczenie przed dzieleniem przez zero
+            result = current === 0 ? "Błąd!" : prev / current;
+            break;
+        default:
+            return;
+    }
+
+    currentOperand = result.toString();
+    selectedOperation = undefined;
+    previousValue = undefined;
+    updateDisplay();
+});
