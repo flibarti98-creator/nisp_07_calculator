@@ -47,3 +47,41 @@ equalsButton.addEventListener('click', () => {
         updateDisplay();
     }
 });
+
+// ... (poprzedni kod: zmienne i updateDisplay)
+
+let previousValue = 0;
+let selectedOperation = null; // Dodajemy zmienną, by pamiętać co kliknięto
+
+operationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        if (currentOperand === '') return; // Jeśli nic nie wpisano, zignoruj
+        
+        previousValue = parseFloat(currentOperand);
+        selectedOperation = button.innerText; // Zapamiętaj czy to + czy -
+        currentOperand = '';
+        updateDisplay();
+    });
+});
+
+equalsButton.addEventListener('click', () => {
+    const current = parseFloat(currentOperand);
+    if (isNaN(previousValue) || isNaN(current)) return;
+
+    let result;
+    switch (selectedOperation) {
+        case '+':
+            result = previousValue + current;
+            break;
+        case '-':
+            result = previousValue - current;
+            break;
+        default:
+            return;
+    }
+
+    currentOperand = result.toString();
+    selectedOperation = undefined;
+    previousValue = undefined;
+    updateDisplay();
+});
